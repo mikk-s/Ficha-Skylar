@@ -1,4 +1,4 @@
-name: Deploy via FTP
+name: Teste de Diagnostico
 
 on:
   push:
@@ -6,23 +6,14 @@ on:
       - main
 
 jobs:
-  web-deploy:
-    name: FTP Deploy
+  diagnostico:
     runs-on: ubuntu-latest
-    
-    # Força o runner a aceitar o Node 20 enquanto você resolve o erro principal
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
     steps:
-    - name: 🚚 Pegando o código mais recente
-      uses: actions/checkout@v4
-
-    - name: 🚀 Sincronizando arquivos via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: "${{secrets.FTP_SERVER}}"
-        username: "${{secrets.FTP_USERNAME}}"
-        password: "${{ secrets.FTP_PASSWORD}}"
-        server-dir: htdocs/
-        dangerous-clean-slate: false
+    - name: Verificar se os Secrets existem
+      run: |
+        if [ -z "${{ secrets.FTP_SERVER }}" ]; then
+          echo "❌ ERRO: O Secret FTP_SERVER esta VAZIO ou inacessivel para esta branch!"
+          exit 1
+        else
+          echo "✅ Sucesso: O Secret FTP_SERVER foi encontrado pelo GitHub."
+        fi
