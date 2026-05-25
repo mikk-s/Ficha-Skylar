@@ -3,7 +3,7 @@ name: Deploy via FTP
 on:
   push:
     branches:
-      - main  # Se a sua branch principal for "master", altere aqui
+      - main  # Verifique se a sua branch principal é main ou master
 
 jobs:
   web-deploy:
@@ -20,7 +20,6 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        # No InfinityFree, o site deve ir para dentro de htdocs
         server-dir: htdocs/
-        # Garante que arquivos deletados localmente também sejam apagados no servidor
-        delete-clean: true
+        # Correção do parâmetro de limpeza (opcional, remova a linha se preferir não deletar nada)
+        dangerous-clean-slate: false
